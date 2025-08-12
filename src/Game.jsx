@@ -110,16 +110,16 @@ function Game() {
     return (
         <article>
             <h2>Choose the same colors</h2>
-            <p>Click on a color below and push the mix color button. Choose the same color until no pads are left.</p>
+            <h3>Pick a color to start the game</h3>
+            <p>Click on a color below and push the Mix Colors button. Choose the same color until no pads are left.</p>
             <div className="result">
                 {gameWon && <p aria-live="polite">Game Won</p>}
                 {gameLost && <p aria-live="polite">Game Lost</p>}
             </div>
-            <div className="color-container">{colorBtns}</div>
-
             <button ref={buttonRef} className="mix-button" onClick={mixColors}>
                 {gameWon || gameLost ? "New Game" : "Mix Colors"}
             </button>
+            <div className="color-container">{colorBtns}</div>
         </article>
     );
 }

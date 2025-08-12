@@ -10,6 +10,10 @@ h1 {
   font-style: italic;
 }
 
+h2 {
+  font-family: "Comic Neue", cursive;
+}
+
 body {
   padding: 1em;
   font-family: "Nunito", sans-serif;
