@@ -1,12 +1,12 @@
-# React + Vite
+# Color-Memory Game
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a simple game in which you have to remember which color you have chosen previously. I used this project to dwell
+deeper in the concepts I learned in react while following [Scrimba Front-End Developer Course](https://scrimba.com/learn/frontend).
 
-Currently, two official plugins are available:
+The project is full of ES5 functions as while I was doing this I was still learining and I still felt confortable seeing
+them as functions:)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+When I felt confident I used the arrow functions. I am fully aware that in a real-world project they should be kept
+consistent.
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+I have also only commented out the console.logs as I still visit the project sometimes to play with the components.
