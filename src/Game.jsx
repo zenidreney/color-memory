@@ -2,8 +2,6 @@ import { useState } from "react";
 import Color from "./Color";
 import { nanoid } from "nanoid";
 
-console.log(nanoid())
-
 const baseColors = ["blue", "red", "black", "white", "green", "pink", "darkviolet", "khaki"];
 
 function Game() {
@@ -17,7 +15,16 @@ function Game() {
         })
     );
 
-    //console.log(colorsArray)
+    //console.log(colorsArray[0].colorValue)
+    const gameWon =
+        colorsArray.every(function (color) {
+            return color.isHeld === true;
+        }) &&
+        colorsArray.every(function (color) {
+            return color.colorValue === colorsArray[0].colorValue;
+        });
+
+    //console.log(gameWon)
 
     const colorBtns = colorsArray.map((color) => (
         <Color
@@ -37,14 +44,26 @@ function Game() {
             if (color.isHeld === false) {
                 return {
                     ...color,
-                    colorValue: randomColor,
+                    colorValue: randomColor
                 };
             } else {
-                return color
+                return color;
             }
         });
 
-        setColorsArray(mixedColors);
+        setColorsArray(() => {
+            if (gameWon) {
+               return baseColors.map((color) => {
+                    return {
+                        id: nanoid(),
+                        colorValue: color,
+                        isHeld: false
+                    };
+                });
+            } else {
+                return mixedColors;
+            }
+        });
     }
 
     function holdColor(id) {
@@ -53,7 +72,7 @@ function Game() {
                 return color.id === id
                     ? {
                           ...color,
-                          isHeld: true
+                          isHeld: true // I kept it this way so there is no way to re-toggle as this is a memory game
                       }
                     : color;
             })
@@ -63,11 +82,12 @@ function Game() {
     return (
         <article>
             <h2>Choose the same colors</h2>
+            {gameWon && <p aria-live="polite">Game Won</p>}
 
             <div className="color-container">{colorBtns}</div>
 
             <button className="mix-button" onClick={mixColors}>
-                Mix Colors
+                {gameWon ? "New Game" : "Mix Colors"}
             </button>
         </article>
     );
