@@ -1,0 +1,19 @@
+button {
+  cursor: pointer;
+}
+
+.color-btn {
+  width: 120px;
+  height: 120px;
+  background-color: red;
+  border: 0.5px solid #232323;
+  border-radius: 4px;
+}
+
+.color-container {
+  display: flex;
+  gap: 1em;
+  max-width: 600px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
