@@ -4,7 +4,7 @@ function Color(props) {
     //console.log(props)
     const styles = {
         backgroundColor: props.color,
-        opacity: props.isHeld && 0.5
+        opacity: props.isHeld && 0
     }
     
     return <button className="color-btn" style={styles} onClick={props.hold} />;

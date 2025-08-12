@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Color from "./Color";
 import { nanoid } from "nanoid";
 
-const baseColors = ["blue", "red", "black", "white", "green", "pink", "darkviolet", "khaki"];
+const baseColors = ["lightblue", "red", "darkblue", "salmon", "lightgreen", "pink", "darkviolet", "khaki"];
 
 function Game() {
     const [colorsArray, setColorsArray] = useState(() =>
@@ -14,8 +14,9 @@ function Game() {
             };
         })
     );
+    const buttonRef = useRef(null);
 
-    //console.log(colorsArray[0].colorValue)
+    /*End Game Logic*/
     const gameWon =
         colorsArray.every(function (color) {
             return color.isHeld === true;
@@ -24,17 +25,21 @@ function Game() {
             return color.colorValue === colorsArray[0].colorValue;
         });
 
-    //console.log(gameWon)
+    const heldColor = colorsArray
+        .filter(function (color) {
+            return color.isHeld;
+        })
+        .map(function (color) {
+            return color.colorValue;
+        });
 
-    const colorBtns = colorsArray.map((color) => (
-        <Color
-            key={color.id}
-            id={color.id}
-            color={color.colorValue}
-            isHeld={color.isHeld}
-            hold={() => holdColor(color.id)}
-        />
-    ));
+    const gameLost = heldColor.some(function (color) {
+        if (heldColor.length > 1) {
+            return color !== heldColor[0];
+        } else return;
+    });
+
+    //console.log(heldColor, heldColor[0], gameLost);
 
     function mixColors() {
         const mixedColors = colorsArray.map((color) => {
@@ -52,8 +57,8 @@ function Game() {
         });
 
         setColorsArray(() => {
-            if (gameWon) {
-               return baseColors.map((color) => {
+            if (gameWon || gameLost) {
+                return baseColors.map((color) => {
                     return {
                         id: nanoid(),
                         colorValue: color,
@@ -72,22 +77,48 @@ function Game() {
                 return color.id === id
                     ? {
                           ...color,
-                          isHeld: true // I kept it this way so there is no way to re-toggle as this is a memory game
+                          isHeld: true // I kept it this boolean so there is no way to re-toggle as this is a memory game
                       }
                     : color;
             })
         );
     }
 
+    /*Return the Focus on new game for accessability*/
+
+    useEffect(
+        function () {
+            if (gameWon || gameLost) {
+                buttonRef.current.focus();
+            }
+        },
+        [gameWon, gameLost]
+    );
+
+    /*Components and HTML*/
+
+    const colorBtns = colorsArray.map((color) => (
+        <Color
+            key={color.id}
+            id={color.id}
+            color={color.colorValue}
+            isHeld={color.isHeld}
+            hold={() => holdColor(color.id)}
+        />
+    ));
+
     return (
         <article>
             <h2>Choose the same colors</h2>
-            {gameWon && <p aria-live="polite">Game Won</p>}
-
+            <p>Click on a color below and push the mix color button. Choose the same color until no pads are left.</p>
+            <div className="result">
+                {gameWon && <p aria-live="polite">Game Won</p>}
+                {gameLost && <p aria-live="polite">Game Lost</p>}
+            </div>
             <div className="color-container">{colorBtns}</div>
 
-            <button className="mix-button" onClick={mixColors}>
-                {gameWon ? "New Game" : "Mix Colors"}
+            <button ref={buttonRef} className="mix-button" onClick={mixColors}>
+                {gameWon || gameLost ? "New Game" : "Mix Colors"}
             </button>
         </article>
     );
