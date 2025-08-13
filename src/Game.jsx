@@ -15,6 +15,7 @@ function Game() {
         })
     );
     const buttonRef = useRef(null);
+    const finishGameRef = useRef(null);
 
     /*End Game Logic*/
     const gameWon =
@@ -90,6 +91,7 @@ function Game() {
         function () {
             if (gameWon || gameLost) {
                 buttonRef.current.focus();
+                finishGameRef.current.scrollIntoView();
             }
         },
         [gameWon, gameLost]
@@ -108,7 +110,7 @@ function Game() {
     ));
 
     return (
-        <article>
+        <article ref={finishGameRef} >
             <h2>Choose the same colors</h2>
             <h3>Pick a color to start the game</h3>
             <p>Click on a color below and push the Mix Colors button. Choose the same color until no pads are left.</p>
